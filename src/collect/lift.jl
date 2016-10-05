@@ -1,5 +1,11 @@
 # TODO: should we inline the following?
 
+if VERSION < v"0.6.0-dev.848"
+    unsafe_get(x::Nullable) = x.value
+    unsafe_get(x) = x
+    Base.isnull(x) = false
+end
+
 function lift(f, x)
     U = Core.Inference.return_type(f, Tuple{eltype(typeof(x))})
     if isnull(x)
